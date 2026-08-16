@@ -22,6 +22,9 @@ public class MarkTaskPage {
     private By savebtn = AppiumBy.id("org.secuso.privacyfriendlytodolist:id/bt_process_task_ok");
     private By addedTaskName = AppiumBy.id("org.secuso.privacyfriendlytodolist:id/tv_exlv_task_name");
     private By SnackbarMsg = AppiumBy.id("org.secuso.privacyfriendlytodolist:id/snackbar_text");
+
+
+
     //Actions
 
     public void ClickSkipbtn(){

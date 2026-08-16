@@ -31,7 +31,7 @@ driver = new AndroidDriver(new URL(" http://127.0.0.1:4723/"), options);
         deleteTaskPage= new DeleteTaskPage(driver);
         editTaskPage = new EditTaskPage(driver);
        markTaskPage = new MarkTaskPage(driver);
-       // filterCompletePage = new FilterCompletePage(driver);
+        filterCompletePage = new FilterCompletePage(driver);
 driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(120)); //3shan lw al emliator khad wa2t fe t7mel ay 7aga ystna l7d ma tzhar
     }
 }

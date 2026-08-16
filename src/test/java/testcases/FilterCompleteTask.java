@@ -14,61 +14,52 @@ import java.time.Duration;
 public class FilterCompleteTask extends BaseTest {
     @Test
     public void filtercomplete() throws InterruptedException {
-       // add without mark
+       // task1
         Thread.sleep(2000);
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/btn_skip")).click();
-        driver.findElement(AppiumBy.accessibilityId("ADD NEW TASK >")).click();
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/et_task_name")).sendKeys("without mark");
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/et_task_description")).sendKeys("test mark filtter");
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/bt_process_task_ok")).click();
-        Assert.assertTrue(driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/tv_exlv_task_name")).isDisplayed(), "Task was not added successfully!");
+        BaseTest.filterCompletePage.ClickSkipbtn();
+        BaseTest.filterCompletePage.ClickAddtaskbtn();
+        BaseTest.filterCompletePage.fillTaskDetails("without mark" , "test mark filter");
+        BaseTest.filterCompletePage.ClickSavebtn();
+
+        String ExpectedTaskName="without mark";
+        String actualName= BaseTest.filterCompletePage.getTasknameByIndex(1);
+        Assert.assertEquals(actualName,ExpectedTaskName, "mismatch task name");
 
 
-        // add with mark
-        driver.findElement(AppiumBy.accessibilityId("ADD NEW TASK >")).click();
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/et_task_name")).sendKeys("Mark task");
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/et_task_description")).sendKeys("i will mark this task");
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/bt_process_task_ok")).click();
-        Assert.assertTrue(driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/tv_exlv_task_name")).isDisplayed(), "Task was not added successfully!");
+        // task2
+        BaseTest.filterCompletePage.ClickAddtask2btn();
+        BaseTest.filterCompletePage.fillTaskDetails("first_marked_task", "test mark filter");
+        BaseTest.filterCompletePage.ClickSavebtn2();
+
+        String ExpectedTaskName2="first_marked_task";
+        String actualtaskName2= BaseTest.filterCompletePage.getTasknameByIndex(2);
+        Assert.assertEquals(actualtaskName2,ExpectedTaskName2, "mismatch task name");
         //mark task
        // driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/cb_task_done")).click();
-        BaseTest.filterCompletePage.checkTaskByName("Mark task");
-
-
-
+        BaseTest.filterCompletePage.checkTaskByName("first_marked_task");
         // Message displayed
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement marksnackbar = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        AppiumBy.id("org.secuso.privacyfriendlytodolist:id/snackbar_text"))
-        );
-        Assert.assertTrue(marksnackbar.isDisplayed());
+        Assert.assertEquals(BaseTest.filterCompletePage.snackbarMsg(), "Task changed status");
 
+         Thread.sleep(5000);
 
+        //task3
+        BaseTest.filterCompletePage.ClickAddtask3btn();
+        BaseTest.filterCompletePage.fillTaskDetails("secound marked task", "test mark filter");
+        BaseTest.filterCompletePage.ClickSavebtn3();
 
-        //mark task2
-        Thread.sleep(2000);
-        driver.findElement(AppiumBy.accessibilityId("ADD NEW TASK >")).click();
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/et_task_name")).sendKeys("Mark task2");
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/et_task_description")).sendKeys("i will mark this task");
-        driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/bt_process_task_ok")).click();
-        Assert.assertTrue(driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/tv_exlv_task_name")).isDisplayed(), "Task was not added successfully!");
+        String ExpectedTask3Name="secound marked task";
+        String actualtask3Name= BaseTest.filterCompletePage.getTasknameByIndex(3);
+        Assert.assertEquals(actualtask3Name,ExpectedTask3Name, "mismatch task name");
         //mark task
-        //driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/cb_task_done")).click();
-        BaseTest.filterCompletePage.checkTaskByName("Mark task2");
-
+        // driver.findElement(AppiumBy.id("org.secuso.privacyfriendlytodolist:id/cb_task_done")).click();
+        BaseTest.filterCompletePage.checkTaskByName("secound marked task");
         // Message displayed
-        WebDriverWait wait2 = new WebDriverWait(driver, Duration.ofSeconds(5));
-        WebElement marksnackbar2 = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(
-                        AppiumBy.id("org.secuso.privacyfriendlytodolist:id/snackbar_text"))
-        );
-        Assert.assertTrue(marksnackbar2.isDisplayed());
+        Assert.assertEquals(BaseTest.filterCompletePage.snackbarMsg(), "Task changed status");
 
 
         //
-        driver.findElement(AppiumBy.accessibilityId("More options")).click();
-        driver.findElement(AppiumBy.xpath("//android.widget.TextView[@resource-id=\"org.secuso.privacyfriendlytodolist:id/title\" and @text=\"Completed tasks\"]")).click();
+        BaseTest.filterCompletePage.ClickMoreOptions();
+        BaseTest.filterCompletePage.ClickCompletefilter();
 
     }
 }
